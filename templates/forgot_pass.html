@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f4f4f4; padding: 30px 0;">
+  <tr>
+    <td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; border-radius: 10px; padding: 40px; font-family: Arial, sans-serif; color: #333;">
+        <tr>
+          <td align="center">
+            <h1 style="font-size: 24px; margin-bottom: 20px;">Hello, {{ name }}</h1>
+            <p style="font-size: 16px; line-height: 1.6;">
+              We received a request to reset your password.
+            </p>
+            <p style="font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+              To reset your password, click the button below and follow the instructions.
+            </p>
+            <a href="{{ url }}" style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+              Reset Password
+            </a>
+            <p style="margin-top: 30px; font-size: 12px; color: #888;">
+              If you didn’t request a password reset, please ignore this email.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+{% endblock %}
