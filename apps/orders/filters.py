@@ -18,7 +18,7 @@ class OrderFilter(filters.FilterSet):
     surname = filters.CharFilter(field_name="surname", lookup_expr="icontains")
     name = filters.CharFilter(field_name="name", lookup_expr="icontains")
     my_orders = filters.BooleanFilter(method="filter_my_orders")
-    manager = filters.CharFilter(field_name="manager", method="filter_by_manager")
+    manager = filters.CharFilter(field_name="manager", method="filter_my_orders")
     order = filters.OrderingFilter(
         fields=(
             'id',
@@ -30,7 +30,3 @@ class OrderFilter(filters.FilterSet):
             return queryset.filter(manager=self.request.user)
         return queryset
 
-    def filter_by_manager(self, queryset, name, value):
-        if value:
-            return queryset.filter(manager=value)
-        return queryset
