@@ -1,0 +1,899 @@
+{
+	"info": {
+		"_postman_id": "0caed0b4-2dea-4272-8a26-ab33201943f0",
+		"name": "Admin_Panel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23888799"
+	},
+	"item": [
+		{
+			"name": "/api/orders",
+			"item": [
+				{
+					"name": "/comment",
+					"item": [
+						{
+							"name": "create-comment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer  {{access}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"text\": \"This is my comment.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/orders/350/add_comment",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"orders",
+										"350",
+										"add_comment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-comment",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/orders/497/comment/4",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"orders",
+										"497",
+										"comment",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/groups",
+					"item": [
+						{
+							"name": "getAllGroups",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/api/orders/groups",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"orders",
+										"groups"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "addGroup",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"group_name\": \"sep-2022\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/orders/groups",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"orders",
+										"groups"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "getAllOrders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer  {{access}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/orders?page=20&order=-id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "20"
+								},
+								{
+									"key": "order",
+									"value": "-id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/orders/495/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"495",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UptByID",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"course_type\": \"minimal\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/orders/505/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"505",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addOrder",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Jason\",\r\n    \"surname\": \"Statem\",\r\n    \"email\": \"saas@gmail.com\",\r\n    \"phone\": \"38099775477\",\r\n    \"age\": 21,\r\n    \"course\": \"QACX\",\r\n    \"course_format\": \"online\",\r\n    \"course_type\": \"vip\",\r\n    \"sum\": null,\r\n    \"alreadyPaid\": null,\r\n    \"utm\": \"rock\",\r\n    \"msg\": \"nice man\",\r\n    \"status\": \"New\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/orders",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filterOrder",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/orders?name=Jhon&surname=Sur",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Jhon"
+								},
+								{
+									"key": "surname",
+									"value": "Sur"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DelByID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/orders/495/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"495",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ordersStatistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/orders/stats",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"stats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/users",
+			"item": [
+				{
+					"name": "getAllUsers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUsers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"email\": \"admin@gmail.com\",\r\n \"password\": \"admin\",\r\n \"profile\": {\r\n    \"first_name\": \"Admin\",\r\n    \"last_name\": \"Adminskyi\",\r\n    \"age\": 22\r\n }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "block_manager",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/users/2/block",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2",
+								"block"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unblock_manager",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/users/2/unblock",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2",
+								"unblock"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"access\", res.access);\r",
+									"pm.environment.set(\"refresh\", res.refresh);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "admin@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "mishagolden525@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "admin123@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer  {{access}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"text\": \"This is my comment.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/me",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-manager",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer  {{access}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"sniderzak321@gmail.com\",\r\n    \"username\": \"Snider\",\r\n    \"profile\": {\r\n            \"name\": \"Zak\",\r\n            \"surname\": \"Snider\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/create-manager",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"create-manager"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "send-activation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer  {{access}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"user_id\": 17\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/send-activation",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"send-activation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "send-recovery",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer  {{access}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"mishagoal752@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/recovery",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"recovery"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "password-register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/activate/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWN0aXZhdGUiLCJleHAiOjE3NDIzNzk0MjIsImlhdCI6MTc0MjM3NTgyMiwianRpIjoiZjgyMTRmYmM0ZDhlNDA3MmE0ZGY4NzI3ZWJmNzgxOWQiLCJ1c2VyX2lkIjoxNX0.Q_lBBi-Tz5NTLY0THSOggbizYuddmeb_u8bvd737O-s",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"activate",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWN0aXZhdGUiLCJleHAiOjE3NDIzNzk0MjIsImlhdCI6MTc0MjM3NTgyMiwianRpIjoiZjgyMTRmYmM0ZDhlNDA3MmE0ZGY4NzI3ZWJmNzgxOWQiLCJ1c2VyX2lkIjoxNX0.Q_lBBi-Tz5NTLY0THSOggbizYuddmeb_u8bvd737O-s"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "new-password-register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"admin1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/recovery/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVjb3ZlcnkiLCJleHAiOjE3NDM4OTIwODksImlhdCI6MTc0Mzg5MTQ4OSwianRpIjoiZDIzMjYwMzk2YTFiNDUwNTk4N2I1MDYyMGI5ZjFhNTAiLCJ1c2VyX2lkIjoxN30.Hp6INFRizAeMnGAdtD5vF3g9KqhSywAevojNwk6J_Jo",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"recovery",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVjb3ZlcnkiLCJleHAiOjE3NDM4OTIwODksImlhdCI6MTc0Mzg5MTQ4OSwianRpIjoiZDIzMjYwMzk2YTFiNDUwNTk4N2I1MDYyMGI5ZjFhNTAiLCJ1c2VyX2lkIjoxN30.Hp6INFRizAeMnGAdtD5vF3g9KqhSywAevojNwk6J_Jo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{refresh}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0NDY2OTk1NywiaWF0IjoxNzQ0NjY5MzU3LCJqdGkiOiI0ZGY3MDc0ODc3NzM0MTE3YjRmNmQ4YTkyZjRlYzYwYSIsInVzZXJfaWQiOjJ9.2wFZe9hsaD4X2AMI-eKVGX5TcRpG2xi1KmMjW-4jRcQ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/refresh",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"refresh"
+							],
+							"query": [
+								{
+									"key": "refresh",
+									"value": "{{refresh}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
