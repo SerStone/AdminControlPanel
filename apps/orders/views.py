@@ -91,7 +91,7 @@ class OrderRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 
 class AddMangerToOrder(GenericAPIView):
     serializer_class = EmailSerializer
-    permission_classes = (IsManager,)
+    permission_classes = (IsAdminUser,)
 
     def post(self, request, pk):
         data = self.request.data
