@@ -88,6 +88,7 @@ class OrderRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class AddMangerToOrder(GenericAPIView):
     serializer_class = EmailSerializer
     permission_classes = (IsManager,)

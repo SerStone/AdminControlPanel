@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, GenericAPIView, get_object_or_404
@@ -24,22 +25,28 @@ class CreateManagerView(CreateAPIView):
     def create(self, request, *args, **kwargs):
         data = request.data
 
-        user = UserModel.objects.create(
-            email=data["email"],
-            username=data["username"],
-            is_manager=False,
-            is_active=False
-        )
-
-        profile_data = data.get("profile")
-        if profile_data:
-            ProfileModel.objects.create(
-                first_name=profile_data.get("first_name", ""),
-                last_name=profile_data.get("last_name", ""),
-                user=user
+        try:
+            user = UserModel.objects.create(
+                email=data["email"],
+                username=data["username"],
+                is_manager=False,
+                is_active=False
             )
 
-        return Response({"detail": "User created. Admin must activate the account."}, status=status.HTTP_201_CREATED)
+            profile_data = data.get("profile")
+            if profile_data:
+                ProfileModel.objects.create(
+                    first_name=profile_data.get("first_name", ""),
+                    last_name=profile_data.get("last_name", ""),
+                    user=user
+                )
+
+            return Response({"detail": "User created. Admin must activate the account."}, status=status.HTTP_201_CREATED)
+
+        except IntegrityError as e:
+            if "Duplicate entry" in str(e):
+                return Response({"detail": "A user with this email already exists."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": "Internal server error."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class UserSetPasswordView(GenericAPIView):
