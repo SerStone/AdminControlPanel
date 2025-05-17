@@ -7,6 +7,7 @@ from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 
 from core.dataclasses.user_dataclass import UserDataClass
+from core.exceptions.create_manager_exceptions import UsernameTooLongException
 from core.services.email_service import EmailService
 from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
 
@@ -24,11 +25,16 @@ class CreateManagerView(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         data = request.data
+        username = data.get("username", "")
+        max_length = UserModel._meta.get_field("username").max_length
+
+        if len(username) > max_length:
+            raise UsernameTooLongException(max_length)
 
         try:
             user = UserModel.objects.create(
                 email=data["email"],
-                username=data["username"],
+                username=username,
                 is_manager=False,
                 is_active=False
             )
@@ -46,6 +52,9 @@ class CreateManagerView(CreateAPIView):
         except IntegrityError as e:
             if "Duplicate entry" in str(e):
                 return Response({"detail": "A user with this email already exists."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": "Database integrity error."}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception:
             return Response({"detail": "Internal server error."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 

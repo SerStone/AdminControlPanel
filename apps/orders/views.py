@@ -49,11 +49,23 @@ class OrderListCreateView(ListCreateAPIView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.method == 'GET':
-            self.update_dubbing_status()
-
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset, request=self.request)
         return self.filterset.qs
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+
+        if request.query_params.get('all') == 'true':
+            serializer = self.get_serializer(queryset, many=True)
+            return Response({'data': serializer.data})
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def update_dubbing_status(self):
         from django.db.models import Count
