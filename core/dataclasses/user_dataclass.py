@@ -16,6 +16,7 @@ class ProfileDataClass:
 class UserDataClass:
     id: int
     email: str
+    username: str
     password: str
     is_manager: bool
     is_active: bool

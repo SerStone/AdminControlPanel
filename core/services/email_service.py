@@ -26,6 +26,7 @@ class EmailService:
             {'name': user.profile.first_name, 'url': url},
             'Register'
         )
+        return url
 
     @classmethod
     def recovery_password(cls, user: UserDataClass):
@@ -37,3 +38,5 @@ class EmailService:
                              'name': user.profile.first_name
                           },
                          'Recovery Password')
+
+        return url

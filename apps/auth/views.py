@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.db import IntegrityError
 
 from rest_framework import status
@@ -28,12 +30,21 @@ class CreateManagerView(CreateAPIView):
         username = data.get("username", "")
         max_length = UserModel._meta.get_field("username").max_length
 
+        email = data.get("email")
+        if not email:
+            return Response({"detail": "Email is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            validate_email(email)
+        except ValidationError:
+            return Response({"detail": "Invalid email format."}, status=status.HTTP_400_BAD_REQUEST)
+
         if len(username) > max_length:
             raise UsernameTooLongException(max_length)
 
         try:
             user = UserModel.objects.create(
-                email=data["email"],
+                email=email,
                 username=username,
                 is_manager=False,
                 is_active=False
@@ -84,9 +95,12 @@ class UserActivateView(GenericAPIView):
         user_id = request.data.get("user_id")
         user = get_object_or_404(UserModel, id=user_id, is_active=False)
 
-        EmailService.register(user)
+        activation_link = EmailService.register(user)
 
-        return Response({"detail": "Activation email sent."}, status=status.HTTP_200_OK)
+        return Response({
+            "detail": "Activation email sent.",
+            "activation_link": activation_link
+        }, status=status.HTTP_200_OK)
 
 
 class RecoveryPasswordRequestView(GenericAPIView):
@@ -98,8 +112,8 @@ class RecoveryPasswordRequestView(GenericAPIView):
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         user = get_object_or_404(UserModel, **serializer.data)
-        EmailService.recovery_password(user)
-        return Response({'detail': 'check your email'}, status=status.HTTP_200_OK)
+        recovery_link = EmailService.recovery_password(user)
+        return Response({'detail': 'check your email',  "recovery_link": recovery_link}, status=status.HTTP_200_OK)
 
 
 class RecoveryPasswordView(GenericAPIView):
