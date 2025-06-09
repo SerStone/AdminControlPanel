@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
-from django.db.models import Count
+from django.db.models import Count, F, Value
+from django.db.models.functions import Coalesce
 
 from rest_framework import status
-from rest_framework.filters import OrderingFilter
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -13,16 +13,12 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
-
-from django_filters.rest_framework import DjangoFilterBackend
 
 from core.enums import StatusEnum
 from core.permissions.is_manager import IsManager
-from core.permissions.is_superuser import IsSuperuser
 
 from apps.auth.serializers import EmailSerializer
-from apps.orders.filters import OrderFilter
+from apps.orders.filters import NoneIfEmpty, NullsLastOrderingFilter, OrderFilter
 from apps.orders.models import CommentModel, GroupModel, OrderModel
 from apps.orders.serializers import CommentSerializer, GroupSerializer, OrderSerializer
 
@@ -40,7 +36,6 @@ class OrderListCreateView(ListCreateAPIView):
     serializer_class = OrderSerializer
     filterset_class = OrderFilter
     permission_classes = (IsAuthenticated,)
-    filter_backends = (DjangoFilterBackend,)
 
     def get_permissions(self):
         if self.request.method == 'POST':
@@ -49,8 +44,31 @@ class OrderListCreateView(ListCreateAPIView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        self.filterset = self.filterset_class(self.request.GET, queryset=queryset, request=self.request)
-        return self.filterset.qs
+        filterset = self.filterset_class(self.request.GET, queryset=queryset, request=self.request)
+        qs = filterset.qs
+
+        ordering = self.request.GET.getlist('order') or self.request.GET.getlist('ordering')
+        if ordering:
+            f_ordering = []
+            for field in ordering:
+                desc = False
+                if field.startswith('-'):
+                    field = field[1:]
+                    desc = True
+
+                if field in ['name', 'surname', 'email', 'phone', 'course_type', 'course_format', 'course']:
+                    expr = Coalesce(
+                        NoneIfEmpty(field),
+                        Value(None)
+                    )
+                else:
+                    expr = F(field)
+
+                f_ordering.append(expr.desc(nulls_last=True) if desc else expr.asc(nulls_last=True))
+
+            qs = qs.order_by(*f_ordering)
+
+        return qs
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
@@ -66,7 +84,6 @@ class OrderListCreateView(ListCreateAPIView):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
     def update_dubbing_status(self):
         from django.db.models import Count
 

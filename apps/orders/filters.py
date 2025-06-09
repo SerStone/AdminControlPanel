@@ -1,6 +1,31 @@
-from django_filters import rest_framework as filters
+from django.db.models import F, Func
+from django.db.models.expressions import F, Value
 
-from .models import OrderModel
+from django_filters import rest_framework as filters
+from django_filters.rest_framework import OrderingFilter
+
+
+class NoneIfEmpty(Func):
+    function = 'NULLIF'
+    arity = 2
+
+    def __init__(self, expression):
+        super().__init__(expression, Value(''))
+
+
+class NullsLastOrderingFilter(OrderingFilter):
+    def filter(self, qs, value):
+        if not value:
+            return qs
+
+        ordering = []
+        for param in value:
+            if param.startswith('-'):
+                field_name = param[1:]
+                ordering.append(F(field_name).desc(nulls_last=True))
+            else:
+                ordering.append(F(param).asc(nulls_last=True))
+        return qs.order_by(*ordering)
 
 
 class OrderFilter(filters.FilterSet):
@@ -19,25 +44,14 @@ class OrderFilter(filters.FilterSet):
     name = filters.CharFilter(field_name="name", lookup_expr="icontains")
     my_orders = filters.BooleanFilter(method="filter_my_orders")
     manager = filters.CharFilter(field_name="manager", method="filter_my_orders")
-    order = filters.OrderingFilter(
+    order = NullsLastOrderingFilter(
         fields=(
-            'id',
-            'course',
-            'course_format',
-            'course_type',
-            'status',
-            'age',
-            'sum',
-            'alreadyPaid',
-            'group',
-            'phone',
-            'created_at',
-            'email',
-            'surname',
-            'name',
-            'manager',
+            'id', 'course', 'course_format', 'course_type', 'status',
+            'age', 'sum', 'alreadyPaid', 'group', 'phone', 'created_at',
+            'email', 'surname', 'name', 'manager',
         )
     )
+    ordering_param = "order"
 
     def filter_my_orders(self, queryset, name, value):
         if value:
