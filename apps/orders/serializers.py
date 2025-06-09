@@ -55,6 +55,13 @@ class OrderSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         group_id = validated_data.pop('group_id', None)
         email = validated_data.get('email', instance.email)
+        user = self.context['request'].user
+
+        if instance.manager is None:
+            validated_data['manager'] = user
+
+            if 'status' not in validated_data or validated_data['status'] is None:
+                validated_data['status'] = "In work"
 
         if group_id is not None:
             try:

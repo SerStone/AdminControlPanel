@@ -136,11 +136,18 @@ class OrderStatsView(GenericAPIView):
             .values('status')
             .annotate(count=Count('id'))
         )
+
         total = OrderModel.objects.count()
 
         stats = {status.value: 0 for status in StatusEnum}
+        stats['null'] = 0
         for entry in status_counts:
-            stats[entry['status']] = entry['count']
+            status = entry['status']
+            count = entry['count']
+            if status is None:
+                stats['null'] = count
+            else:
+                stats[status] = count
 
         return Response({
             'total': total,

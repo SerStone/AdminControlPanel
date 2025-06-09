@@ -22,6 +22,20 @@ class OrderFilter(filters.FilterSet):
     order = filters.OrderingFilter(
         fields=(
             'id',
+            'course',
+            'course_format',
+            'course_type',
+            'status',
+            'age',
+            'sum',
+            'alreadyPaid',
+            'group',
+            'phone',
+            'created_at',
+            'email',
+            'surname',
+            'name',
+            'manager',
         )
     )
 
